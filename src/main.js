@@ -1,7 +1,19 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App";
 
-Vue.config.productionTip = false
+import Buefy from "buefy";
+import "buefy/dist/buefy.css";
+
+import { firestorePlugin } from "vuefire";
+
+Vue.use(firestorePlugin);
+
+Vue.use(Buefy);
+
+import "@fortawesome/fontawesome-free/css/all.css";
+import "@fortawesome/fontawesome-free/js/all.js";
+
+Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
