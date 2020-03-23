@@ -1,32 +1,38 @@
 <template>
   <div>
-    <NavBar @edit-mode="onEditMode" :on-edit="isEditMode"></NavBar>
+    <NavBar></NavBar>
     <div class="columns">
       <div class="column is-three-quarters">
-        <Map :places="places" :on-edit="isEditMode" :edit-mode="editMode" @user-marker="onUserMarkerSelected"></Map>
+        <Map :places="places"></Map>
       </div>
       <div class="column">
         <div id="places">
-          {{editMode}}
           <Places :places="places"></Places>
         </div>
       </div>
     </div>
-    <BottomBar v-if="isBottomBar" @open-resource="onOpenAddResourceForm" :on-edit="isEditMode"></BottomBar>
-      <b-modal :active.sync="isAddResourceActive"
-          has-modal-card full-screen :can-cancel="true" style="z-index: 9999" @close="isEditMode = false;">
-          <AddResourceForm :userMarker="userMarker"></AddResourceForm>
-      </b-modal>
+    <BottomBar v-if="isGlobalBottomNav"></BottomBar>
+    <b-modal
+      :active.sync="isGlobalAddResourceForm"
+      has-modal-card
+      full-screen
+      :can-cancel="true"
+      style="z-index: 9999"
+    >
+      <AddResourceForm></AddResourceForm>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import db from "@/firebase";
+import {db} from "@/firebase";
 import NavBar from "@/components/NavBar";
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/Map.vue";
 import AddResourceForm from "@/components/AddResourceForm.vue";
 import Places from "@/components/Places.vue";
+
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -35,7 +41,7 @@ export default {
     Places,
     NavBar,
     BottomBar,
-    AddResourceForm,
+    AddResourceForm
   },
   firestore: {
     places: db.collection("test-places")
@@ -43,34 +49,15 @@ export default {
   data() {
     return {
       places: [],
-      userMarker: {},
-      isEditMode: false,
-      isBottomBar: false,
-      isAddResourceActive: false,
+      isAddResourceActive: false
     };
   },
   computed: {
-    editMode() {
-      return this.isEditMode;
-    }
+    ...mapState(["isGlobalEditMode", "isGlobalBottomNav", "isGlobalAddResourceForm"]),
   },
   methods: {
-      onEditMode(payload) {
-          this.isEditMode = payload;
-          if(!payload) {
-            this.isBottomBar = false;
-          }
-      },
-      onUserMarkerSelected(latLng) {
-        this.userMarker = latLng;
-        this.isBottomBar = true;
-      },
-      onOpenAddResourceForm() {
-        this.isBottomBar = false;
-        this.isEditMode = false;
-        this.isAddResourceActive = true;
-      }
-  }
+    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV"]),
+  },
 };
 </script>
 

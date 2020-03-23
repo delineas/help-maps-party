@@ -14,7 +14,7 @@
 
       <template slot="end">
         <b-navbar-item tag="div">
-          <div v-if="!isEditMode && !onEdit" class="buttons">
+          <div v-if="!isGlobalEditMode" class="buttons">
             <a class="button is-danger" @click="addResource">
               <span class="icon">
                 <i class="fas fa-plus"></i>
@@ -22,10 +22,10 @@
               <strong>Añadir recurso</strong>
             </a>
           </div>
-          <div v-if="isEditMode"  class="buttons">
+          <div v-else class="buttons">
             <a class="button is-warning" @click="cancel">
-              <span class="icon icon2">
-                <i class="fas fa-times-circle"></i>
+              <span class="icon">
+                <i class="fas fa-times-circle icon2"></i>
               </span>
               <strong>Cancelar añadir</strong>
             </a>
@@ -46,6 +46,7 @@
 
 <script>
 import AboutModal from "./AboutModal";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "NavBar",
@@ -55,23 +56,21 @@ export default {
   props: ["onEdit"],
   data() {
     return {
-      isAboutModalActive: false,
-    //   isEditMode: false
+      isAboutModalActive: false
+      //   isEditMode: false
     };
   },
   computed: {
-      isEditMode() {
-          return this.onEdit;
-      }
+    ...mapState(["isGlobalEditMode"]),
   },
   methods: {
+    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_USER_MARKER"]),
     addResource() {
-      this.isEditMode = true;
-      this.$emit("edit-mode", true);
+      this.UPDATE_GLOBAL_EDIT_MODE(true);
     },
     cancel() {
-      this.isEditMode = false;
-      this.$emit("edit-mode", false);
+      this.UPDATE_GLOBAL_EDIT_MODE(false);
+      this.UPDATE_GLOBAL_USER_MARKER({lat: '', lng: ''});
     }
   }
 };

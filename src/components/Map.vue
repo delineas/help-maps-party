@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ places }} // {{ editMode }}
     <l-map
       v-if="showMap"
       :zoom="zoom"
@@ -21,7 +20,7 @@
       >
         <l-popup :content="formatContent(place)" />
       </l-marker>
-      <l-marker v-if="userMarker !== null" :lat-lng="userMarker">
+      <l-marker v-if="userGlobalMarker !== null" :lat-lng="userGlobalMarker">
         <l-popup content="Posicion añadida por el usuario" />
       </l-marker>
     </l-map>
@@ -37,6 +36,9 @@ import VueLeafletSearch from "./VueLeafletSearch.vue";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 
 import { Icon } from "leaflet";
+
+import { mapState, mapActions } from "vuex";
+
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -73,7 +75,11 @@ export default {
       showMap: true
     };
   },
+  computed: {
+    ...mapState(["isGlobalEditMode", "userGlobalMarker"]),
+  },
   methods: {
+    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV", "UPDATE_GLOBAL_ADD_RESOURCE_FORM", "UPDATE_GLOBAL_USER_MARKER"]),
     formatPosition(data) {
       return { name: data.title, lng: data.position.V, lat: data.position.F };
     },
@@ -87,9 +93,9 @@ export default {
       this.currentCenter = center;
     },
     addMarker(event) {
-      if(this.editMode) {
-        this.userMarker = event.latlng;
-        this.$emit('user-marker', event.latlng);
+      if(this.isGlobalEditMode) {
+        this.UPDATE_GLOBAL_USER_MARKER(event.latlng);
+        this.UPDATE_GLOBAL_BOTTOM_NAV(true);
       }
     }
   }

@@ -2,10 +2,7 @@
   <b-navbar fixed-bottom class="navbar" style="z-index: 9999">
     <template slot="start">
       <b-navbar-item>
-        <a
-          class="button is-danger is-large is-fullwidth"
-          @click="$emit('open-resource')"
-        >
+        <a class="button is-danger is-large is-fullwidth" @click="openResource">
           <span class="icon">
             <i class="fas fa-arrow-right"></i>
           </span>
@@ -17,8 +14,17 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "BottomBar",
+  methods: {
+    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV", "UPDATE_GLOBAL_ADD_RESOURCE_FORM"]),
+    openResource() {
+      this.UPDATE_GLOBAL_BOTTOM_NAV(false);
+      this.UPDATE_GLOBAL_ADD_RESOURCE_FORM(true);
+    }
+  }
 };
 </script>
 
