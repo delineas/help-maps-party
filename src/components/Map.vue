@@ -1,132 +1,99 @@
 <template>
-
   <div>
-    <div>
-      <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p>
-      <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
-      <button @click="showLongText">
-        Toggle long popup
-      </button>
-      <button @click="showMap = !showMap">
-        Toggle map
-      </button>
-    </div>
+    {{ places }} // {{ editMode }}
     <l-map
       v-if="showMap"
       :zoom="zoom"
       :center="center"
       :options="mapOptions"
-      style="height: 100vh; width: 100%"
+      style="height: 100vh; width: 100%;"
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
+      @click="addMarker"
     >
-      <l-tile-layer
-        :url="url"
-        :attribution="attribution"
-      />
-      <VueLeafletLocate/>
-      <VueLeafletSearch/>
-      <l-marker :lat-lng="withPopup">
-        <l-popup>
-          <div @click="innerClick">
-            I am a popup
-            <p v-show="showParagraph">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-              Donec finibus semper metus id malesuada.
-            </p>
-          </div>
-        </l-popup>
+      <l-tile-layer :url="url" :attribution="attribution" />
+      <VueLeafletLocate />
+      <VueLeafletSearch />
+      <l-marker
+        v-for="place in places"
+        :key="place.id"
+        :lat-lng="formatPosition(place)"
+      >
+        <l-popup :content="formatContent(place)" />
       </l-marker>
-      <l-feature-group>
-        <l-marker :lat-lng="withTooltip">
-          <l-tooltip :options="{ permanent: true, interactive: true }">
-            <div @click="innerClick">
-              I am a tooltip
-              <p v-show="showParagraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-                Donec finibus semper metus id malesuada.
-              </p>
-            </div>
-          </l-tooltip>
-        </l-marker>
-      </l-feature-group>
+      <l-marker v-if="userMarker !== null" :lat-lng="userMarker">
+        <l-popup content="Posicion añadida por el usuario" />
+      </l-marker>
     </l-map>
   </div>
 </template>
 
 <script>
-import { latLng } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import VueLeafletLocate from './VueLeafletLocate.vue'
-import VueLeafletSearch from './VueLeafletSearch.vue'
-import {
-  LMap,
-  LTileLayer,
-  LMarker,
-  LPopup,
-  LTooltip,
-  LFeatureGroup,
-} from 'vue2-leaflet';
+import { center } from "@/settings.js";
+import { latLng } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import VueLeafletLocate from "./VueLeafletLocate.vue";
+import VueLeafletSearch from "./VueLeafletSearch.vue";
+import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 
-import { Icon } from 'leaflet';
+import { Icon } from "leaflet";
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
 });
 
 export default {
-  name: 'Map',
+  name: "Map",
+  props: ["places", "editMode"],
   components: {
     LMap,
     LTileLayer,
     LMarker,
     LPopup,
-    LTooltip,
-    LFeatureGroup,
     VueLeafletLocate,
-    VueLeafletSearch,
+    VueLeafletSearch
   },
   data() {
     return {
       zoom: 13,
-      center: latLng(40.4165001, -3.7025599),
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      center: latLng(center.lat, center.lng),
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      withPopup: latLng(47.41322, -1.219482),
-      withTooltip: latLng(47.41422, -1.250482),
       currentZoom: 11.5,
-      currentCenter: latLng(40.4165001, -3.7025599),
+      currentCenter: latLng(center.lat, center.lng),
       showParagraph: false,
+      userMarker: null,
       mapOptions: {
-        zoomSnap: 0.5,
+        zoomSnap: 0.5
       },
-      showMap: true,
-      editMode: false,
+      showMap: true
     };
   },
   methods: {
+    formatPosition(data) {
+      return { name: data.title, lng: data.position.V, lat: data.position.F };
+    },
+    formatContent(data) {
+      return `<h5 class="title is-4">${data.title}</h5><p>${data.description}</p>`;
+    },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
     centerUpdate(center) {
       this.currentCenter = center;
     },
-    showLongText() {
-      this.showParagraph = !this.showParagraph;
-    },
-    innerClick() {
-      alert('Click!');
-    },
-  },
+    addMarker(event) {
+      if(this.editMode) {
+        this.userMarker = event.latlng;
+        this.$emit('user-marker', event.latlng);
+      }
+    }
+  }
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

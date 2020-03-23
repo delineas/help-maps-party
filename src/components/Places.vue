@@ -17,17 +17,9 @@
 </template>
 
 <script>
-  import db from '@/firebase';
   export default {
     name: 'Places',
-    firestore: {
-        places: db.collection('test-places'),
-    },
-    data(){
-      return {
-        places: [],
-      }
-    },
+    props: ["places"],
     methods: {
     }
   }
