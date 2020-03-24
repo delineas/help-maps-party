@@ -74,6 +74,7 @@ export default {
 <style>
 .map-container {
   border-right: 1px solid #666;
+  margin-top: 50px;
 }
 .places-container {
   overflow: auto;

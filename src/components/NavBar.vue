@@ -100,6 +100,6 @@ export default {
 
 <style>
 .navbar.is-fixed-top.is-z-superior {
-  z-index: 999;
+  z-index: 1001;
 }
 </style>
