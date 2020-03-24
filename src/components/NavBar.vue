@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar class="is-info">
+    <b-navbar fixed-top	class="is-info is-z-superior">
       <template slot="brand">
         <b-navbar-item>
           <h2>help-maps-party</h2>
@@ -98,4 +98,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.navbar.is-fixed-top.is-z-superior {
+  z-index: 999;
+}
+</style>

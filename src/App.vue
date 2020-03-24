@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <NavBar></NavBar>
     <div class="columns no-gutter">
       <div class="column is-three-quarters map-container">
@@ -21,7 +21,7 @@
     >
       <AddResourceForm></AddResourceForm>
     </b-modal>
-  </div>
+  </span>
 </template>
 
 <script>
