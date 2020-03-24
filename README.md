@@ -2,7 +2,7 @@
 
 > Aplicación web para posicionar recursos en un mapa.
 
-Demo: 
+Demo: https://help-maps-party.delineas.now.sh/
 
 ## Características
 
@@ -129,6 +129,8 @@ El despliegue en la plataforma de `zeit now`, que es muy sencilla.
 2- En la carpeta raíz del proyecto en local, ejecutar `now` 
 3- Seguir los pasos que te va indicando.
 
+Es necesario configurar las variables de entorno de forma concreta desde nuestro entorno local
+https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets
 
 ## Instalación del frontend
 ```
