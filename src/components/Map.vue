@@ -1,11 +1,12 @@
 <template>
   <l-map
     ref="map"
+    class="is-map"
     v-if="showMap"
     :zoom="zoom"
     :center="center"
     :options="mapOptions"
-    style="height: 100vh; width: 100%;"
+    style="width: 100%;"
     @update:center="centerUpdate"
     @update:zoom="zoomUpdate"
     @click="addMarker"
@@ -87,7 +88,7 @@ export default {
       return { name: data.title, lng: data.position.V, lat: data.position.F };
     },
     formatContent(data) {
-      return `<h5 class="title is-4">${data.title}</h5><p>${data.description}</p><p><a href="${data.link}">Enlace</a></p>`;
+      return `<h5 class="title is-4">${data.title}</h5><p>${data.description}</p><p><a target="_blank" href="${data.link}">Ir al enlace</a></p>`;
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -110,4 +111,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.is-map {
+  height: calc(100vh - 50px)  !important;
+}
+</style>

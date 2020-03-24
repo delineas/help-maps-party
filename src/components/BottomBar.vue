@@ -1,16 +1,12 @@
 <template>
-  <b-navbar fixed-bottom class="navbar is-bottom-bar" style="z-index: 9999">
-    <template slot="start">
-      <b-navbar-item>
+  <div class="align-bottom">
         <a class="button is-danger is-large" @click="openResource">
           <span class="icon">
             <i class="fas fa-arrow-right"></i>
           </span>
           <strong>Continuar</strong>
         </a>
-      </b-navbar-item>
-    </template>
-  </b-navbar>
+  </div>
 </template>
 
 <script>
@@ -29,13 +25,11 @@ export default {
 </script>
 
 <style>
-@media screen and (max-width: 1023px) {
-  .is-bottom-bar .navbar-menu {
-    display: block;
-  }
+.align-bottom {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
 }
-.is-bottom-bar .navbar-brand {
-  display: none;
-}
-
 </style>

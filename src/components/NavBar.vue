@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar fixed-top	class="is-info is-z-superior">
+  <span>
+    <b-navbar fixed-top class="is-info is-z-superior">
       <template slot="brand">
         <b-navbar-item>
           <h2>help-maps-party</h2>
@@ -13,9 +13,9 @@
       </template>
 
       <template slot="end">
-          <b-navbar-item @click="isHowToModalActive = !isHowToModalActive">
-            ¿Cómo añadir?
-          </b-navbar-item>
+        <b-navbar-item @click="isHowToModalActive = !isHowToModalActive">
+          ¿Cómo añadir?
+        </b-navbar-item>
         <b-navbar-item tag="div">
           <div v-if="!isGlobalEditMode" class="buttons">
             <a class="button is-danger" @click="addResource">
@@ -52,7 +52,7 @@
     >
       <HowToAddModal />
     </b-modal>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -85,8 +85,9 @@ export default {
     addResource() {
       this.UPDATE_GLOBAL_EDIT_MODE(true);
       this.$buefy.toast.open({
-        duration: 5000,
-        message: "Marca el lugar en el mapa donde quieras añadir el recurso"
+        duration: 3000,
+        message: "Marca un lugar en el mapa",
+        position: "is-bottom"
       });
     },
     cancel() {

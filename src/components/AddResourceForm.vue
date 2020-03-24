@@ -1,74 +1,74 @@
 <template>
   <div class="modal-card" style="width: auto">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Añade aquí tu recurso</p>
-      </header>
-      <section class="modal-card-body">
-        <b-field>
-          <b-input
-            type="text"
-            v-model="form.title"
-            placeholder="Nombre o nick"
-            required
-          >
-          </b-input>
-        </b-field>
-        <b-field>
-          <b-input
-            type="text"
-            v-model="form.link"
-            placeholder="Enlace a tu twitter o página personal"
-            required
-          >
-          </b-input>
-        </b-field>
-        <b-field>
-          <b-input
-            maxlength="500"
-            type="textarea"
-            v-model="form.description"
-            placeholder="¿Qué ofreces?"
-            message="Describe aquí lo que ofreces"
-            required
-          >
-          </b-input>
-        </b-field>
-        <b-field grouped label="Coordenadas">
-          <b-field label="Latitud" expanded>
-            <b-input
-              type="text"
-              :value="userGlobalMarker.lat"
-              @input="updateLat"
-              required
-            ></b-input>
-          </b-field>
-          <b-field label="Longitud" expanded>
-            <b-input
-              type="text"
-              :value="userGlobalMarker.lng"
-              @input="updateLng"
-              required
-            ></b-input>
-          </b-field>
-        </b-field>
-        <b-checkbox required v-model="form.lopd"
-          >Acepto aparecer en el mapa con estos datos</b-checkbox
+    <header class="modal-card-head">
+      <p class="modal-card-title">Añade aquí tu recurso</p>
+    </header>
+    <section class="modal-card-body">
+      <b-field>
+        <b-input
+          type="text"
+          v-model="form.title"
+          placeholder="Nombre o nick"
+          required
         >
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button" type="button" @click="close">
-          Cerrar
-        </button>
-        <button class="button is-danger" @click="saveResource">
-          Guardar en el mapa
-        </button>
-      </footer>
+        </b-input>
+      </b-field>
+      <b-field>
+        <b-input
+          type="text"
+          v-model="form.link"
+          placeholder="Enlace a tu twitter o página personal"
+          required
+        >
+        </b-input>
+      </b-field>
+      <b-field>
+        <b-input
+          maxlength="500"
+          type="textarea"
+          v-model="form.description"
+          placeholder="¿Qué ofreces?"
+          message="Describe aquí lo que ofreces"
+          required
+        >
+        </b-input>
+      </b-field>
+      <b-field grouped label="Coordenadas">
+        <b-field label="Latitud" expanded>
+          <b-input
+            type="text"
+            :value="userGlobalMarker.lat"
+            @input="updateLat"
+            required
+          ></b-input>
+        </b-field>
+        <b-field label="Longitud" expanded>
+          <b-input
+            type="text"
+            :value="userGlobalMarker.lng"
+            @input="updateLng"
+            required
+          ></b-input>
+        </b-field>
+      </b-field>
+      <b-checkbox required v-model="form.lopd"
+        >Acepto aparecer en el mapa con estos datos</b-checkbox
+      >
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button" type="button" @click="close">
+        Cerrar
+      </button>
+      <button class="button is-danger" @click="saveResource">
+        Guardar en el mapa
+      </button>
+    </footer>
   </div>
 </template>
 
 <script>
 import { db, GeoPoint } from "@/firebase";
-import { collectionName } from "@/settings"
+import { collectionName } from "@/settings";
 
 import { mapState, mapActions } from "vuex";
 
@@ -84,7 +84,7 @@ export default {
           lat: "",
           lng: ""
         },
-        lopd: false,
+        lopd: false
       }
     };
   },
@@ -130,16 +130,24 @@ export default {
         this.userGlobalMarker.lng != "" &&
         this.form.lopd == true
       ) {
-        await db.collection(collectionName).add({
-          title: this.form.title,
-          link: this.form.link,
-          description: this.form.description,
-          category: 'general',
-          position: new GeoPoint(
-            parseFloat(this.userGlobalMarker.lat),
-            parseFloat(this.userGlobalMarker.lng)
-          )
-        }).then(() => this.$buefy.toast.open('Recurso añadido correctamente'));
+        await db
+          .collection(collectionName)
+          .add({
+            title: this.form.title,
+            link: this.form.link,
+            description: this.form.description,
+            category: "general",
+            position: new GeoPoint(
+              parseFloat(this.userGlobalMarker.lat),
+              parseFloat(this.userGlobalMarker.lng)
+            )
+          })
+          .then(() =>
+            this.$buefy.toast.open({
+              message: "Recurso añadido correctamente",
+              position: "is-bottom"
+            })
+          );
         this.UPDATE_GLOBAL_ADD_RESOURCE_FORM(false);
         this.UPDATE_GLOBAL_EDIT_MODE(false);
       }

@@ -1,14 +1,12 @@
 <template>
   <span>
     <NavBar></NavBar>
-    <div class="columns no-gutter">
-      <div class="column is-three-quarters map-container">
+    <div class="is-columns-group">
+      <div class="is-column map-container">
         <Map :places="places" :fly-to-marker="flyToMarker"></Map>
       </div>
-      <div class="column places-container">
-        <div id="places">
-          <Places :places="places" @fly-to="onFlyTo"></Places>
-        </div>
+      <div class="is-column places-container is-hidden-mobile">
+        <Places :places="places" @fly-to="onFlyTo"></Places>
       </div>
     </div>
     <BottomBar v-if="isGlobalBottomNav"></BottomBar>
@@ -72,8 +70,23 @@ export default {
 </script>
 
 <style>
+.is-columns-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.is-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
 .map-container {
   border-right: 1px solid #666;
+  flex: 2
 }
 .places-container {
   overflow: auto;
@@ -82,5 +95,11 @@ export default {
 .no-gutter > .column {
   padding-right: 0;
   padding-left: 0;
+}
+.leaflet-top {
+    top: 40px;
+}
+.notices {
+  bottom: 30px !important;
 }
 </style>

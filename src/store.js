@@ -8,6 +8,7 @@ export default new Vuex.Store({
     isGlobalEditMode: false,
     isGlobalBottomNav: false,
     isGlobalAddResourceForm: false,
+    isGlobalListVisible: true,
     userGlobalMarker: {
       lat: "",
       lng: ""
