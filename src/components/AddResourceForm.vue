@@ -68,6 +68,7 @@
 
 <script>
 import { db, GeoPoint } from "@/firebase";
+import { collectionName } from "@/settings"
 
 import { mapState, mapActions } from "vuex";
 
@@ -129,7 +130,7 @@ export default {
         this.userGlobalMarker.lng != "" &&
         this.form.lopd == true
       ) {
-        await db.collection("test-places").add({
+        await db.collection(collectionName).add({
           title: this.form.title,
           link: this.form.link,
           description: this.form.description,

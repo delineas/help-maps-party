@@ -30,7 +30,7 @@
               <span class="icon">
                 <i class="fas fa-times-circle icon2"></i>
               </span>
-              <strong>Cancelar añadir</strong>
+              <strong>Cancelar</strong>
             </a>
           </div>
         </b-navbar-item>

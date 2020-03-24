@@ -3,3 +3,5 @@ export const center = {
   lng: -3.7025599
 }
 
+export const collectionName = 'test-places';
+

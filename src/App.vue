@@ -26,6 +26,7 @@
 
 <script>
 import { db } from "@/firebase";
+import { collectionName } from "@/settings"
 import NavBar from "@/components/NavBar";
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/Map.vue";
@@ -44,7 +45,7 @@ export default {
     AddResourceForm
   },
   firestore: {
-    places: db.collection("test-places")
+    places: db.collection(collectionName)
   },
   data() {
     return {
