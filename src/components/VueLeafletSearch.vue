@@ -20,7 +20,6 @@ export default {
         propertyName: "display_name",
         propertyLoc: ["lat", "lon"],
         marker: L.circleMarker([0, 0], { radius: 30 }),
-        //formatData: this.formatJSON,
         autoCollapse: true,
         autoType: true,
         minLength: 2
@@ -30,22 +29,6 @@ export default {
   methods: {
     leafletSearcInit() {
       LeafletSearch;
-    },
-
-    formatJSON(rawjson) {
-      console.log(rawjson);
-      // let json = {},
-      //   key,
-      //   loc;
-
-      // rawjson.forEach(item => {
-      //   key = item.formatted_address;
-
-      //   loc = L.latLng(item.location.lat, item.location.lng);
-
-      //   json[key] = loc; //key,value format
-      // });
-      // return json;
     }
   }
 };

@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <l-map
-      v-if="showMap"
-      :zoom="zoom"
-      :center="center"
-      :options="mapOptions"
-      style="height: 100vh; width: 100%;"
-      @update:center="centerUpdate"
-      @update:zoom="zoomUpdate"
-      @click="addMarker"
+  <l-map
+    ref="map"
+    v-if="showMap"
+    :zoom="zoom"
+    :center="center"
+    :options="mapOptions"
+    style="height: 100vh; width: 100%;"
+    @update:center="centerUpdate"
+    @update:zoom="zoomUpdate"
+    @click="addMarker"
+  >
+    <l-tile-layer :url="url" :attribution="attribution" />
+    <VueLeafletLocate />
+    <VueLeafletSearch />
+    <l-marker
+      v-for="place in places"
+      :key="place.id"
+      :lat-lng="formatPosition(place)"
     >
-      <l-tile-layer :url="url" :attribution="attribution" />
-      <VueLeafletLocate />
-      <VueLeafletSearch />
-      <l-marker
-        v-for="place in places"
-        :key="place.id"
-        :lat-lng="formatPosition(place)"
-      >
-        <l-popup :content="formatContent(place)" />
-      </l-marker>
-      <l-marker v-if="userGlobalMarker !== null" :lat-lng="userGlobalMarker">
-        <l-popup content="Posicion añadida por el usuario" />
-      </l-marker>
-    </l-map>
-  </div>
+      <l-popup :content="formatContent(place)" />
+    </l-marker>
+    <l-marker v-if="userGlobalMarker !== null" :lat-lng="userGlobalMarker">
+      <l-popup content="Posicion añadida por el usuario" />
+    </l-marker>
+  </l-map>
 </template>
 
 <script>
@@ -39,7 +38,6 @@ import { Icon } from "leaflet";
 
 import { mapState, mapActions } from "vuex";
 
-
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -49,7 +47,7 @@ Icon.Default.mergeOptions({
 
 export default {
   name: "Map",
-  props: ["places", "editMode"],
+  props: ["places", "editMode", "flyToMarker"],
   components: {
     LMap,
     LTileLayer,
@@ -76,15 +74,20 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isGlobalEditMode", "userGlobalMarker"]),
+    ...mapState(["isGlobalEditMode", "userGlobalMarker"])
   },
   methods: {
-    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV", "UPDATE_GLOBAL_ADD_RESOURCE_FORM", "UPDATE_GLOBAL_USER_MARKER"]),
+    ...mapActions([
+      "UPDATE_GLOBAL_EDIT_MODE",
+      "UPDATE_GLOBAL_BOTTOM_NAV",
+      "UPDATE_GLOBAL_ADD_RESOURCE_FORM",
+      "UPDATE_GLOBAL_USER_MARKER"
+    ]),
     formatPosition(data) {
       return { name: data.title, lng: data.position.V, lat: data.position.F };
     },
     formatContent(data) {
-      return `<h5 class="title is-4">${data.title}</h5><p>${data.description}</p>`;
+      return `<h5 class="title is-4">${data.title}</h5><p>${data.description}</p><p><a href="${data.link}">Enlace</a></p>`;
     },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -93,10 +96,15 @@ export default {
       this.currentCenter = center;
     },
     addMarker(event) {
-      if(this.isGlobalEditMode) {
+      if (this.isGlobalEditMode) {
         this.UPDATE_GLOBAL_USER_MARKER(event.latlng);
         this.UPDATE_GLOBAL_BOTTOM_NAV(true);
       }
+    }
+  },
+  watch: {
+    flyToMarker() {
+      this.$refs.map.mapObject.flyTo({lat: this.flyToMarker.position.latitude, lng: this.flyToMarker.position.longitude}, 16);
     }
   }
 };

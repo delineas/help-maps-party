@@ -1,13 +1,13 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="columns">
-      <div class="column is-three-quarters">
-        <Map :places="places"></Map>
+    <div class="columns no-gutter">
+      <div class="column is-three-quarters map-container">
+        <Map :places="places" :fly-to-marker="flyToMarker"></Map>
       </div>
-      <div class="column">
+      <div class="column places-container">
         <div id="places">
-          <Places :places="places"></Places>
+          <Places :places="places" @fly-to="onFlyTo"></Places>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {db} from "@/firebase";
+import { db } from "@/firebase";
 import NavBar from "@/components/NavBar";
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/Map.vue";
@@ -49,16 +49,37 @@ export default {
   data() {
     return {
       places: [],
-      isAddResourceActive: false
+      isAddResourceActive: false,
+      flyToMarker: null
     };
   },
   computed: {
-    ...mapState(["isGlobalEditMode", "isGlobalBottomNav", "isGlobalAddResourceForm"]),
+    ...mapState([
+      "isGlobalEditMode",
+      "isGlobalBottomNav",
+      "isGlobalAddResourceForm"
+    ])
   },
   methods: {
     ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV"]),
-  },
+    onFlyTo(e) {
+      console.log(e);
+      this.flyToMarker = e;
+    }
+  }
 };
 </script>
 
-<style></style>
+<style>
+.map-container {
+  border-right: 1px solid #666;
+}
+.places-container {
+  overflow: auto;
+  height: 100vh;
+}
+.no-gutter > .column {
+  padding-right: 0;
+  padding-left: 0;
+}
+</style>

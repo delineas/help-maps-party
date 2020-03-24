@@ -138,8 +138,9 @@ export default {
             parseFloat(this.userGlobalMarker.lat),
             parseFloat(this.userGlobalMarker.lng)
           )
-        });
+        }).then(() => this.$buefy.toast.open('Recurso añadido correctamente'));
         this.UPDATE_GLOBAL_ADD_RESOURCE_FORM(false);
+        this.UPDATE_GLOBAL_EDIT_MODE(false);
       }
     }
   }
