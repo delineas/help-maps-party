@@ -11,6 +11,7 @@ Demo: https://help-maps-party.delineas.now.sh/
 - Búsqueda por nombre de lugares y calles usando el servicio de nominatim.openstreetmap.org
 - Añadir recursos mediante el propio mapa
 - Almacenamiento en la nube
+- Instalable como aplicación de escritorio en móvil
 
 ## Stack tecnológico
 
