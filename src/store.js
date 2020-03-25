@@ -5,10 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    windowWidth: window.innerWidth,
     isGlobalEditMode: false,
     isGlobalBottomNav: false,
     isGlobalAddResourceForm: false,
-    isGlobalListVisible: true,
+    isGlobalListActive: false,
     userGlobalMarker: {
       lat: "",
       lng: ""
@@ -29,6 +30,12 @@ export default new Vuex.Store({
     },
     UPDATE_GLOBAL_USER_MARKER_DETAIL(state, payload) {
       state.userGlobalMarker[payload.coord] = payload.value;
+    },
+    UPDATE_GLOBAL_LIST_ACTIVE(state, payload) {
+      state.isGlobalListActive = payload;
+    },
+    setWindowWidth(state) {
+      state.windowWidth = window.innerWidth;
     }
   },
   actions: {
@@ -46,6 +53,9 @@ export default new Vuex.Store({
     },
     UPDATE_GLOBAL_USER_MARKER_DETAIL({ commit }, payload) {
       commit("UPDATE_GLOBAL_USER_MARKER_DETAIL", payload);
+    },
+    UPDATE_GLOBAL_LIST_ACTIVE({ commit }, payload) {
+      commit("UPDATE_GLOBAL_LIST_ACTIVE", payload);
     }
   }
 });

@@ -2,10 +2,10 @@
   <span>
     <NavBar></NavBar>
     <div class="is-columns-group">
-      <div class="is-column map-container">
+      <div :class="[{ 'is-hidden-for-navigation': isGlobalListActive && windowWidth < 769 }]" class="is-column map-container">
         <Map :places="places" :fly-to-marker="flyToMarker"></Map>
       </div>
-      <div class="is-column places-container is-hidden-mobile">
+      <div :class="[{ 'is-hidden-for-navigation': !isGlobalListActive && windowWidth < 769 }]" class="is-column places-container">
         <Places :places="places" @fly-to="onFlyTo"></Places>
       </div>
     </div>
@@ -24,7 +24,7 @@
 
 <script>
 import { db } from "@/firebase";
-import { collectionName } from "@/settings"
+import { collectionName } from "@/settings";
 import NavBar from "@/components/NavBar";
 import BottomBar from "@/components/BottomBar";
 import Map from "@/components/Map.vue";
@@ -52,15 +52,22 @@ export default {
       flyToMarker: null
     };
   },
+  created() {
+    window.addEventListener("resize", this.$store.commit("setWindowWidth"));
+  },
   computed: {
     ...mapState([
       "isGlobalEditMode",
       "isGlobalBottomNav",
-      "isGlobalAddResourceForm"
-    ])
+      "isGlobalAddResourceForm",
+      "isGlobalListActive"
+    ]),
+    windowWidth() {
+      return this.$store.state.windowWidth;
+    }
   },
   methods: {
-    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV"]),
+    ...mapActions(["UPDATE_GLOBAL_EDIT_MODE", "UPDATE_GLOBAL_BOTTOM_NAV", "UPDATE_GLOBAL_LIST_ACTIVE"]),
     onFlyTo(e) {
       console.log(e);
       this.flyToMarker = e;
@@ -84,9 +91,19 @@ export default {
   flex: 1;
 }
 
+.is-hidden-for-navigation {
+  flex: 0 !important;
+}
+
 .map-container {
   border-right: 1px solid #666;
-  flex: 2
+  flex: 2;
+}
+@media screen and (max-width: 769px) {
+  .map-container {
+    border-right: none;
+    flex: 1;
+  }
 }
 .places-container {
   overflow: auto;
@@ -97,7 +114,7 @@ export default {
   padding-left: 0;
 }
 .leaflet-top {
-    top: 40px;
+  top: 40px;
 }
 .notices {
   bottom: 30px !important;

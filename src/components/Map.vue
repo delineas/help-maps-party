@@ -82,7 +82,8 @@ export default {
       "UPDATE_GLOBAL_EDIT_MODE",
       "UPDATE_GLOBAL_BOTTOM_NAV",
       "UPDATE_GLOBAL_ADD_RESOURCE_FORM",
-      "UPDATE_GLOBAL_USER_MARKER"
+      "UPDATE_GLOBAL_USER_MARKER",
+      "UPDATE_GLOBAL_LIST_ACTIVE"
     ]),
     formatPosition(data) {
       return { name: data.title, lng: data.position.V, lat: data.position.F };
@@ -105,7 +106,13 @@ export default {
   },
   watch: {
     flyToMarker() {
-      this.$refs.map.mapObject.flyTo({lat: this.flyToMarker.position.latitude, lng: this.flyToMarker.position.longitude}, 16);
+      this.$refs.map.mapObject.flyTo(
+        {
+          lat: this.flyToMarker.position.F,
+          lng: this.flyToMarker.position.V
+        },
+        16
+      );
     }
   }
 };
@@ -113,6 +120,6 @@ export default {
 
 <style>
 .is-map {
-  height: calc(100vh - 50px)  !important;
+  height: calc(100vh - 50px) !important;
 }
 </style>

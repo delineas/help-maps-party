@@ -3,15 +3,17 @@ import App from "./App";
 
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
-
-import { firestorePlugin } from "vuefire";
-
-Vue.use(firestorePlugin);
-
 Vue.use(Buefy);
 
-import "@fortawesome/fontawesome-free/css/all.css";
-import "@fortawesome/fontawesome-free/js/all.js";
+import { firestorePlugin } from "vuefire";
+Vue.use(firestorePlugin);
+
+
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPlus, faTimesCircle, faMap, faList, faMapMarker, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+library.add(faPlus, faTimesCircle, faMap, faList, faMapMarker, faArrowRight);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 import store from "./store";
 import './registerServiceWorker'

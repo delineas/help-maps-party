@@ -12,20 +12,25 @@
         </div>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item" @click="$emit('fly-to', place)">Ver en el mapa</a>
+        <a class="card-footer-item" @click="flyTo(place)">Ver en el mapa</a>
       </footer>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions }  from "vuex";
+
 export default {
   name: "Places",
   props: ["places"],
   methods: {
+    ...mapActions([
+      "UPDATE_GLOBAL_LIST_ACTIVE"
+    ]),
     flyTo(place) {
-      console.log(this.$parent);
-      this.$refs.map.mapObject.flyTo(place);
+      this.UPDATE_GLOBAL_LIST_ACTIVE(false);
+      this.$emit('fly-to', place);
     }
   }
 };

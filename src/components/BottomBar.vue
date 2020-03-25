@@ -2,7 +2,7 @@
   <div class="align-bottom">
         <a class="button is-danger is-large" @click="openResource">
           <span class="icon">
-            <i class="fas fa-arrow-right"></i>
+            <font-awesome-icon icon="arrow-right" />
           </span>
           <strong>Continuar</strong>
         </a>
