@@ -121,14 +121,31 @@ En el fichero `/src/settings.js` hay algunas configuraciones.
 Las instrucciones para desplegar el sitio en la nube puedes seguirlas en la página de Vue Cli.
 https://cli.vuejs.org/guide/deployment.html
 
+### Despliegue en firebase
+
+Es la opción más sencilla de todas, proque ya tenemos la configuración hecha.
+
+Seguiremos los pasos descritos en https://cli.vuejs.org/guide/deployment.html#firebase
+
+1. Instalar `npm install -g firebase-tools``
+2. Ejecutar `firebase init``
+3. Te pedirá hacer login en la consola de Firebase
+4. La consola te preguntará qué quieres hacer, elige "hosting"
+5. Selecciona el proyecto en el que quieres hacer el despliegue. Si has completado los pasos anteriores lo tendrás ya creado, así que seleccionalo.
+6. La carpeta `public` de tu app es `dist`(por defecto viene definido `public`)
+7. Te pregutna si es una aplicación de una sola página, responde `Y`
+8. Has terminado la configuración, lanza una *build*  con `npm run build``
+9. Lanza el comando `firebase deploy --only hosting``
+10. Ya tienes la aplicación desplegada
+
 ### Despliegue en now
 
-El despliegue en la plataforma de `zeit now`, que es muy sencilla.
+El despliegue en la plataforma de `zeit now`.
 
-0- Necesitarás crear una cuenta en https://now.sh/
-1- Instalar cliente de now con `npm i -g now`
-2- En la carpeta raíz del proyecto en local, ejecutar `now` 
-3- Seguir los pasos que te va indicando.
+0. Necesitarás crear una cuenta en https://now.sh/
+1. Instalar cliente de now con `npm i -g now`
+2. En la carpeta raíz del proyecto en local, ejecutar `now` 
+3. Seguir los pasos que te va indicando.
 
 Es necesario configurar las variables de entorno de forma concreta desde nuestro entorno local
 https://zeit.co/docs/v2/build-step#using-environment-variables-and-secrets
