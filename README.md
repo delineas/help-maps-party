@@ -2,16 +2,32 @@
 
 > Aplicación web para posicionar recursos en un mapa.
 
-Demo: https://help-maps-party.delineas.now.sh/
+Demo: https://help-maps-party.firebaseapp.com/
+
+Útil para aquellas comunidades locales que necesiten saber donde se encuentran las posibilidades más cercanas: personas que necesitan ayuda, personas que ofrecen ayuda, wifis abiertas, comercios cercanos abiertos, etc
+
+
+Puede emplearse de dos formas:
+
+1. Si eres desarrollador web puedes descargarla y emplearla en tu comunidad.
+2. Si tienes una comunidad y crees que puede ayudarte, contacta conmigo (twitter: @delineas)
+
+Para el primer perfil en el repositorio de código puedes encontrar la información de instalación.
+
+Para el segundo, comentar que el despliegue en internet de la aplicación tiene coste cero aprovechando recursos disponibles en la nube. 
+
+La versión de demostración muestra parques de Madrid, pero es solo eso, una versión de demostración. Cada comunidad tendría su propia instalación independiente.
+
+La aplicación no trata de sustituir la potencia de servicios como Google Maps u otras aplicaciones de empresas e instituciones, lo que pretende es estar disponible para grupos pequeños que necesiten una herramienta así para organizarse.
 
 ## Características
 
-- Navegación por los recursos a través del mapa y del listado lateral
+- Navegación por los recursos a través del mapa y del listado 
 - Posicionamiento del usuario en del mapa
-- Búsqueda por nombre de lugares y calles usando el servicio de nominatim.openstreetmap.org
-- Añadir recursos mediante el propio mapa
-- Almacenamiento en la nube
-- Instalable como aplicación de escritorio en móvil
+- Búsqueda por nombre de lugares y calles usando el servicio de openstreetmaps
+- Añadir recursos a través de la interfaz del propio mapa
+- Almacenamiento en la nube de Firebase (gratuita hasta un límite de peticiones)
+- Puede instalarse como aplicación de escritorio en móvil
 
 ## Stack tecnológico
 
