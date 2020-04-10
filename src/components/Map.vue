@@ -69,7 +69,7 @@ export default {
       showParagraph: false,
       userMarker: null,
       mapOptions: {
-        zoomSnap: 0.5
+        zoomSnap: 0.51
       },
       showMap: true
     };

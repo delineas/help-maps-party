@@ -1,6 +1,7 @@
 export const center = {
-  lat: 40.4165001,
-  lng: -3.7025599
+  lat: -0.216416,
+  lng: -78.489216,
+  zoom: 15
 }
 
 export const collectionName = 'test-places';
