@@ -59,17 +59,17 @@ export default {
   },
   data() {
     return {
-      zoom: 13,
+      zoom: center.zoom,
       center: latLng(center.lat, center.lng),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      currentZoom: 11.5,
+      currentZoom: center.zoom,
       currentCenter: latLng(center.lat, center.lng),
       showParagraph: false,
       userMarker: null,
       mapOptions: {
-        zoomSnap: 0.51
+        zoomSnap: 0.5
       },
       showMap: true
     };

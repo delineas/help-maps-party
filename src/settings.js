@@ -1,6 +1,6 @@
 export const center = {
-  lat: -0.216416,
-  lng: -78.489216,
+  lat: 40.4165001,
+  lng: -3.7025599,
   zoom: 15
 }
 
